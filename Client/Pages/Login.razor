@@ -1,6 +1,6 @@
 ﻿@page "/"
 @layout LoginLayout
-@inject HttpClient httClient
+@inject HttpClient httpClient
 @using BlazorLogin.Client.Extensiones
 @using BlazorLogin.Shared
 @using Microsoft.AspNetCore.Components.Authorization
@@ -8,7 +8,7 @@
 @inject NavigationManager navManager
 
 <div class="row mt-5">
-    <div class="col-Ig-4 offset-Ig-4 border">
+    <div class="col-1g-4 offset-1g-4 border">
         <div class="mb-3 text-center">
             <h3>Inicio de Sesión</h3>
         </div>
@@ -28,12 +28,18 @@
 </div>
 @code {
     private LoginDTO login = new LoginDTO();
+    private string MensajeError { get; set; } = string.Empty;
     private async Task IniciarSesion()
     {
-        var loginResponse = await httClient.PostAsJsonAsync<LoginDTO>("/api/Usuario/Login", login);
+        var loginResponse = await httpClient.PostAsJsonAsync<LoginDTO>("/api/Usuario/Login", login);
         if (loginResponse.IsSuccessStatusCode)
         {
             var sesionUsuario = await loginResponse.Content.ReadFromJsonAsync<SesionDTO>();
+            if (sesionUsuario == null || string.IsNullOrEmpty(sesionUsuario.Correo))
+            {
+                MensajeError = "Credenciales inválidas";
+                return;
+            }
             var autenticationExt = (AutenticationExtension)autenticacionProvider;
             await autenticationExt.ActualizarEstadoAutenticacion(sesionUsuario);
             navManager.NavigateTo("/Index");
