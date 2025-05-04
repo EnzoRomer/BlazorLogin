@@ -31,18 +31,30 @@
     private string MensajeError { get; set; } = string.Empty;
     private async Task IniciarSesion()
     {
-        var loginResponse = await httpClient.PostAsJsonAsync<LoginDTO>("/api/Usuario/Login", login);
-        if (loginResponse.IsSuccessStatusCode)
-        {
-            var sesionUsuario = await loginResponse.Content.ReadFromJsonAsync<SesionDTO>();
-            if (sesionUsuario == null || string.IsNullOrEmpty(sesionUsuario.Correo))
-            {
-                MensajeError = "Credenciales inválidas";
-                return;
+    try
+    {
+                var response = await httpClient.PostAsJsonAsync("/api/Usuario/Login", login);
+                var content = await response.Content.ReadFromJsonAsync<ResponseDTO<SesionDTO>>();
+
+                if (response.IsSuccessStatusCode && content?.Value != null)
+                {
+                    var autenticationExt = (AutenticationExtension)autenticacionProvider;
+                    await autenticationExt.ActualizarEstadoAutenticacion(content.Value);
+                    navManager.NavigateTo("/");
+                }
+                else
+                {
+                    // Mostrar mensaje de error
+                    MensajeError = content?.Message ?? "Credenciales inválidas";
+                    // Limpiar sesión
+                    var autenticationExt = (AutenticationExtension)autenticacionProvider;
+                    await autenticationExt.ActualizarEstadoAutenticacion(null);
+                }
             }
-            var autenticationExt = (AutenticationExtension)autenticacionProvider;
-            await autenticationExt.ActualizarEstadoAutenticacion(sesionUsuario);
-            navManager.NavigateTo("/Index");
+            catch (Exception ex)
+            {
+                MensajeError = "Error de conexión";
+            }
         }
     }
 }

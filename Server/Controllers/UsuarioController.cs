@@ -10,22 +10,29 @@ namespace BlazorLogin.Server.Controllers
     {
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromBody]LoginDTO login)
+        public async Task<IActionResult> Login([FromBody] LoginDTO login)
         {
-            SesionDTO sestionDTO = new SesionDTO();
-            if(login.Correo=="admin@gmail.com"&& login.Clave=="admin")
+            // Solo permite login si es el usuario admin
+            if (login.Correo == "admin@gmail.com" && login.Clave == "admin")
             {
-                sestionDTO.Nombre = "admin";
-                sestionDTO.Correo = login.Correo;
-                sestionDTO.Rol = "Administrador";
+                var respuesta = new ResponseDTO<SesionDTO>()
+                {
+                    StatusCode = 200,
+                    Value = new SesionDTO()
+                    {
+                        Nombre = "Administrador",
+                        Correo = login.Correo,
+                        Rol = "Administrador"
+                    }
+                };
+                return Ok(respuesta);
             }
-            else
+
+            return Unauthorized(new ResponseDTO<SesionDTO>()
             {
-                sestionDTO.Nombre = "usuario";
-                sestionDTO.Correo = login.Correo;
-                sestionDTO.Rol = "Usuario";   
-            }
-            return StatusCode(StatusCodes.Status200OK,sestionDTO);
+                StatusCode = 401,
+                Message = "Credenciales inválidas"
+            });
         }
     }
 }
