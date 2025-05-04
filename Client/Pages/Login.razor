@@ -7,29 +7,40 @@
 @inject AuthenticationStateProvider autenticacionProvider
 @inject NavigationManager navManager
 
-<div class="row mt-5">
-    <div class="col-1g-4 offset-1g-4 border">
-        <div class="mb-3 text-center">
-            <h3>Inicio de Sesión</h3>
-        </div>      
-        <div class="mb-3">
-            <label>Correo</label>
-            <input @bind="login.Correo" class="form-control" />
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-4 col-md-6 col-sm-8 border p-4 rounded-3 shadow-sm bg-white">
+        <div class="mb-4 text-center">
+            <h3 class="fw-bold">Inicio de Sesión</h3>
         </div>
+        @if (!string.IsNullOrEmpty(MensajeError))
+        {
+            <div class="alert alert-danger mb-3 py-2">
+                @MensajeError
+            </div>
+        }
         <div class="mb-3">
-            <label>Contraseña</label>
-            <input @bind="login.Clave" class="form-control" />
+            <label class="form-label">Correo</label>
+            <input type="email"
+            @bind="login.Correo"
+                   class="form-control"
+                   placeholder="ejemplo@correo.com" />
         </div>
-        <div class="mb-3">
-            <button @onclick="IniciarSesion" class="btn btn-primary">Login</button>
+        <div class="mb-4">
+            <label class="form-label">Contraseña</label>
+            <input type="password"
+            @bind="login.Clave"
+                   class="form-control"
+                   placeholder="••••••••" />
         </div>
-    </div>
+        <div class="d-grid">
+            <button @onclick="IniciarSesion"
+                    class="btn btn-primary py-2">
+                Ingresar
+            </button>
+        </div>
 
+    </div>
 </div>
-@if (!string.IsNullOrEmpty(MensajeError))
-{
-    <div class="alert alert-danger">@MensajeError</div>
-}
 @code {
     private LoginDTO login = new LoginDTO();
     private string MensajeError { get; set; } = string.Empty;
@@ -41,14 +52,13 @@
 
             if (response.IsSuccessStatusCode)
             {
-                // ¡Cambio clave aquí! Usa ReadFromJsonAsync<SesionDTO> directamente
                 var sesionUsuario = await response.Content.ReadFromJsonAsync<SesionDTO>();
 
-                if (sesionUsuario != null) // Validación adicional
+                if (sesionUsuario != null)
                 {
                     var autenticationExt = (AutenticationExtension)autenticacionProvider;
                     await autenticationExt.ActualizarEstadoAutenticacion(sesionUsuario);
-                    navManager.NavigateTo("/Index", forceLoad: true); // Fuerza recarga
+                    navManager.NavigateTo("/Index", forceLoad: true);
                 }
             }
             else
@@ -59,7 +69,7 @@
         catch (Exception ex)
         {
             MensajeError = "Error de conexión";
-            Console.WriteLine(ex.ToString()); // Depuración
+            Console.WriteLine(ex.ToString()); 
         }
     }
 }

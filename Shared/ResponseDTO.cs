@@ -1,5 +1,4 @@
-﻿// BlazorLogin.Shared/ResponseDTO.cs
-namespace BlazorLogin.Shared
+﻿namespace BlazorLogin.Shared
 {
     public class ResponseDTO<T>
     {
