@@ -11,7 +11,7 @@
     <div class="col-1g-4 offset-1g-4 border">
         <div class="mb-3 text-center">
             <h3>Inicio de Sesión</h3>
-        </div>
+        </div>      
         <div class="mb-3">
             <label>Correo</label>
             <input @bind="login.Correo" class="form-control" />
@@ -26,35 +26,40 @@
     </div>
 
 </div>
+@if (!string.IsNullOrEmpty(MensajeError))
+{
+    <div class="alert alert-danger">@MensajeError</div>
+}
 @code {
     private LoginDTO login = new LoginDTO();
     private string MensajeError { get; set; } = string.Empty;
     private async Task IniciarSesion()
     {
-    try
-    {
-                var response = await httpClient.PostAsJsonAsync("/api/Usuario/Login", login);
-                var content = await response.Content.ReadFromJsonAsync<ResponseDTO<SesionDTO>>();
+        try
+        {
+            var response = await httpClient.PostAsJsonAsync("/api/Usuario/Login", login);
 
-                if (response.IsSuccessStatusCode && content?.Value != null)
-                {
-                    var autenticationExt = (AutenticationExtension)autenticacionProvider;
-                    await autenticationExt.ActualizarEstadoAutenticacion(content.Value);
-                    navManager.NavigateTo("/");
-                }
-                else
-                {
-                    // Mostrar mensaje de error
-                    MensajeError = content?.Message ?? "Credenciales inválidas";
-                    // Limpiar sesión
-                    var autenticationExt = (AutenticationExtension)autenticacionProvider;
-                    await autenticationExt.ActualizarEstadoAutenticacion(null);
-                }
-            }
-            catch (Exception ex)
+            if (response.IsSuccessStatusCode)
             {
-                MensajeError = "Error de conexión";
+                // ¡Cambio clave aquí! Usa ReadFromJsonAsync<SesionDTO> directamente
+                var sesionUsuario = await response.Content.ReadFromJsonAsync<SesionDTO>();
+
+                if (sesionUsuario != null) // Validación adicional
+                {
+                    var autenticationExt = (AutenticationExtension)autenticacionProvider;
+                    await autenticationExt.ActualizarEstadoAutenticacion(sesionUsuario);
+                    navManager.NavigateTo("/Index", forceLoad: true); // Fuerza recarga
+                }
             }
+            else
+            {
+                MensajeError = "Usuario y/o contraseña incorrectas";
+            }
+        }
+        catch (Exception ex)
+        {
+            MensajeError = "Error de conexión";
+            Console.WriteLine(ex.ToString()); // Depuración
         }
     }
 }
