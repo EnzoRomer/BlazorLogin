@@ -38,13 +38,18 @@
                 Ingresar
             </button>
         </div>
-
+        <div class="d-flex justify-content-between mt-3">
+            
+            <a href="/crear-usuario">Crear Usuario</a>
+            <a href="/recuperar-contrasena">Recuperar contraseña</a>
+        </div>
     </div>
 </div>
 @code {
     private LoginDTO login = new LoginDTO();
     private string MensajeError { get; set; } = string.Empty;
     private async Task IniciarSesion()
+
     {
         try
         {
@@ -72,4 +77,9 @@
             Console.WriteLine(ex.ToString()); 
         }
     }
+    // private void NavigateToCreateUser()
+    // {
+    //     NavigationManager.NavigateTo("/crear-usuario");
+    // }
+
 }
