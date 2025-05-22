@@ -1,52 +1,100 @@
-﻿@using System.ComponentModel.DataAnnotations
+﻿@page "/crear-usuario"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components
 @inject NavigationManager NavigationManager
-@page "/crear-usuario"
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+<div class="row justify-content-center mt-5 position-relative">
 
-<h3>Crear Nuevo Usuario</h3>
+    <!-- Mensaje de confirmación -->
+    @if (showConfirmation)
+    {
+        <div class="position-fixed top-50 start-50 translate-middle z-3" style="width: 420px;">
+            <div class="card border-success" style="box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="card-body">
+                    <div class="d-flex align-items-start">
+                        <!-- Cambié el icono a uno de usuario creado -->
+                        <i class="fas fa-user-circle fs-1 me-3" style="color: #28a745; font-size: 2.5rem;"></i>
+                        <div>
+                            <h4 class="text-success">Usuario creado exitosamente</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light text-center">
+                    <button class="btn btn-sm btn-success" @onclick="DismissConfirmation">
+                        <i class="fas fa-check me-1"></i> Aceptar
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="row justify-content-center mt-5">
+    <h3 class="text-center mb-4">Crear Nuevo Usuario</h3>
+    <EditForm Model="@usuarioModel" OnValidSubmit="@HandleSubmit" class="col-lg-4 col-md-6 col-sm-8 border p-4 rounded-3 shadow-sm bg-white">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-<EditForm Model="@usuarioModel" OnValidSubmit="@HandleSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+        <!-- Tus campos del formulario (se mantienen igual) -->
+        <div class="form-group mb-3">
+            <label>Correo electrónico:</label>
+            <InputText @bind-Value="usuarioModel.Email" class="form-control" />
+        </div>
 
-    <div class="form-group">
-        <label for="email">Correo electrónico:</label>
-        <InputText id="email" @bind-Value="usuarioModel.Email" class="form-control" />
-    </div>
+        <div class="form-group mb-3">
+            <label>Contraseña:</label>
+            <InputText type="password" @bind-Value="usuarioModel.Password" class="form-control" />
+        </div>
 
-    <div class="form-group">
-        <label for="password">Contraseña:</label>
-        <InputText id="password" type="password" @bind-Value="usuarioModel.Password" class="form-control" />
-    </div>
+        <div class="form-group mb-4">
+            <label>Rol:</label>
+            <InputSelect @bind-Value="usuarioModel.Rol" class="form-control">
+                <option value="">Seleccione un rol...</option>
+                <option value="Admin">Admin</option>
+                <option value="Usuario">Usuario</option>
+            </InputSelect>
+        </div>
 
-    <div class="form-group">
-        <label for="rol">Rol:</label>
-        <InputSelect id="rol" @bind-Value="usuarioModel.Rol" class="form-control">
-            <option value="">Seleccione un rol...</option>
-            <option value="Admin">Admin</option>
-            <option value="Usuario">Usuario</option>
-        </InputSelect>
-    </div>
-
-    <div class="form-group mt-4">
-        <button type="button" class="btn btn-secondary mr-2" @onclick="Cancelar">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Crear Usuario</button>
-    </div>
-</EditForm>
-
+        <div class="form-group d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" @onclick="Cancelar">
+                Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">
+                Crear Usuario
+            </button>
+        </div>
+    </EditForm>
+</div>
 @code {
     private UsuarioModel usuarioModel = new UsuarioModel();
+    private bool showConfirmation = false; // Controla la visibilidad del mensaje
 
     private void HandleSubmit()
     {
-        // Lógica para crear el usuario
-        Console.WriteLine($"Usuario creado: {usuarioModel.Email}, Rol: {usuarioModel.Rol}");
-        // Aquí iría tu lógica para guardar el usuario
+        // 1. Aquí iría tu lógica para crear el usuario
+        // (simulado con un retraso de 500ms)
+
+        // 2. Mostrar mensaje de confirmación
+        showConfirmation = true;
+
+        // 3. Opcional: Limpiar el formulario
+        usuarioModel = new UsuarioModel();
+
+        // 4. Opcional: Ocultar mensaje después de 3 segundos
+        Task.Delay(15000).ContinueWith(t =>
+        {
+            showConfirmation = false;
+            InvokeAsync(StateHasChanged); // Actualizar la UI
+        });
+    }
+
+    private void DismissConfirmation()
+    {
+        showConfirmation = false;
     }
 
     private void Cancelar()
     {
-        // Regresa a la página anterior o al login
-        NavigationManager.NavigateTo("/login");
+        NavigationManager.NavigateTo("/");
     }
 
     public class UsuarioModel
@@ -62,7 +110,4 @@
         [Required(ErrorMessage = "Debe seleccionar un rol")]
         public string Rol { get; set; }
     }
-
-    [Inject]
-    protected NavigationManager NavigationManager { get; set; }
 }

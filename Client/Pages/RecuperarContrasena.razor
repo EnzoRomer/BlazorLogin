@@ -1,0 +1,91 @@
+﻿@page "/recuperar-contrasena"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+@inject NavigationManager NavigationManager
+
+<div class="row justify-content-center mt-5 position-relative">
+
+    <!-- Mensaje de confirmación -->
+    @if (showConfirmation)
+    {
+        <div class="position-fixed top-50 start-50 translate-middle z-3" style="width: 420px;">
+            <div class="card border-success" style="box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="card-body">
+                    <div class="d-flex align-items-start">                        
+                        <i class="fas fa-envelope-open-text fs-1 me-3" style="color: #28a745;"></i>
+                        <div>
+                            <h4 class="text-success">Correo enviado a:</h4>                            
+                            <div class="p-3 bg-white rounded border">
+                                <i class="fas fa-at text-muted me-2"></i>
+                                <strong>@email</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    }
+
+    <div class="col-lg-4 col-md-6 col-sm-8">
+        <h3 class="text-center mb-4">Recuperar Contraseña</h3>
+
+        <EditForm Model="@recoveryModel" OnValidSubmit="@HandleSubmit" class="border p-4 rounded-3 shadow-sm bg-white">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group mb-4">
+                <label>Correo electrónico:</label>
+                <InputText @bind-Value="recoveryModel.Email" class="form-control" />
+            </div>
+
+            <div class="form-group d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" @onclick="Cancelar">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Recuperar Contraseña
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private RecoveryModel recoveryModel = new RecoveryModel();
+    private bool showConfirmation = false;
+    private string email = string.Empty;
+
+    private void HandleSubmit()
+    {
+        // Simular envío de correo
+        email = recoveryModel.Email;
+        showConfirmation = true;
+
+        // Opcional: Limpiar el campo después de enviar
+        recoveryModel.Email = string.Empty;
+
+        // Ocultar mensaje después de 5 segundos
+        Task.Delay(5000).ContinueWith(t =>
+        {
+            showConfirmation = false;
+            InvokeAsync(StateHasChanged);
+        });
+    }
+
+    private void DismissConfirmation()
+    {
+        showConfirmation = false;
+    }
+    private void Cancelar()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+    public class RecoveryModel
+    {
+        [Required(ErrorMessage = "El correo es requerido")]
+        [EmailAddress(ErrorMessage = "Debe ser un correo válido")]
+        public string Email { get; set; }
+    }
+}
