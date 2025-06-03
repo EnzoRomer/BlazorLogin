@@ -20,6 +20,10 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Usuario/Desktop/Estudios/5to Semestre 2025/PP2/ProyectoV4/BlazorLogin/Client/Pages/Clientes.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Usuario/Desktop/Estudios/5to Semestre 2025/PP2/ProyectoV4/BlazorLogin/Client/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -42,6 +46,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Usuario/Desktop/Estudios/5to Semestre 2025/PP2/ProyectoV4/BlazorLogin/Client/Pages/RecuperarContrasena.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVjdXBlcmFyQ29udHJhc2VuYS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Usuario/Desktop/Estudios/5to Semestre 2025/PP2/ProyectoV4/BlazorLogin/Client/Pages/Turnos.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHVybm9zLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Usuario/Desktop/Estudios/5to Semestre 2025/PP2/ProyectoV4/BlazorLogin/Client/Shared/LoginLayout.razor]

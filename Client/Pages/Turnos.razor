@@ -1,0 +1,147 @@
+﻿
+@page "/turnos"
+
+<h3>Gestión de Turnos</h3>
+
+<hr />
+
+<!-- Formulario para crear o editar un turno -->
+<EditForm Model="@nuevoTurno" OnValidSubmit="@GuardarTurno">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>DNI:</label>
+        <InputText class="form-control" @bind-Value="nuevoTurno.DNI" />
+    </div>
+    <div class="form-group">
+        <label>Cliente:</label>
+        <InputText class="form-control" @bind-Value="nuevoTurno.NombreCliente" />
+    </div>
+
+    <div class="form-group">
+        <label>Fecha:</label>
+        <InputDate class="form-control" @bind-Value="nuevoTurno.Fecha" />
+    </div>
+
+    <div class="form-group">
+        <label>Hora:</label>
+        <InputDate class="form-control" @bind-Value="nuevoTurno.Hora" />
+    </div>
+
+    <div class="form-group">
+        <label>Comentario:</label>
+        <InputText class="form-control" @bind-Value="nuevoTurno.Comentario" />
+    </div>
+    <button class="btn btn-primary mt-3" type="submit">@(editando ? "Guardar cambios" : "Agregar turno")</button>
+    @if (editando)
+    {
+        <button class="btn btn-secondary" @onclick="CancelarEdicion">Cancelar</button>
+    }
+</EditForm>
+
+<hr />
+
+<!-- Tabla de turnos -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Cliente</th>            
+            <th>Fecha</th>
+            <th>Comentario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var turno in turnos)
+        {
+            <tr>
+                <td>@turno.DNI</td>
+                <td>@turno.NombreCliente</td>                
+                <td>@turno.Fecha.ToShortDateString()</td>
+                <td>@turno.Hora.ToShortTimeString</td>
+                <td>@turno.Comentario</td>
+                <td>
+                    <button class="btn btn-sm btn-warning ml=2" @onclick="() => EditarTurno(turno)">Editar</button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => EliminarTurno(turno.Id)">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public class Turno
+    {
+        public int Id { get; set; }
+        public string DNI { get; set; }
+        public string NombreCliente { get; set; }
+        public DateTime Fecha { get; set; }
+        public TimeOnly Hora { get; set; }
+        public string Comentario { get; set; }
+    }
+    private List<Turno> turnos = new();
+    private Turno nuevoTurno = new();
+    private bool editando = false;
+
+    private void GuardarTurno()
+    {
+        if (editando)
+        {
+            var existente = turnos.FirstOrDefault(t => t.Id == nuevoTurno.Id);
+            if (existente != null)
+            {
+                existente.DNI = nuevoTurno.DNI;
+                existente.NombreCliente = nuevoTurno.NombreCliente;                
+                existente.Fecha = nuevoTurno.Fecha;
+                existente.Hora = nuevoTurno.Hora;
+                existente.Comentario = nuevoTurno.Comentario;
+            }
+        }
+        else
+        {
+            nuevoTurno.Id = turnos.Count > 0 ? turnos.Max(t => t.Id) + 1 : 1;
+            turnos.Add(new Turno
+                {
+                    Id = nuevoTurno.Id,
+                    DNI = nuevoTurno.DNI,
+                    NombreCliente = nuevoTurno.NombreCliente,                    
+                    Fecha = nuevoTurno.Fecha,
+                    Hora = nuevoTurno.Hora,
+                    Comentario = nuevoTurno.Comentario
+                });
+        }
+
+        nuevoTurno = new Turno();
+        editando = false;
+    }
+
+    private void EditarTurno(Turno turno)
+    {
+        nuevoTurno = new Turno
+            {
+                Id = turno.Id,
+                DNI = turno.DNI,
+                NombreCliente = turno.NombreCliente,                
+                Fecha = turno.Fecha,
+                Hora = turno.Hora,
+                Comentario = turno.Comentario
+            };
+        editando = true;
+    }
+
+    private void EliminarTurno(int id)
+    {
+        var turno = turnos.FirstOrDefault(t => t.Id == id);
+        if (turno != null)
+        {
+            turnos.Remove(turno);
+        }
+    }
+
+    private void CancelarEdicion()
+    {
+        nuevoTurno = new Turno();
+        editando = false;
+    }
+}

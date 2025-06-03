@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+egx9cgdIqih64p1UCdXeKKINP0D5EQabM8z3NG5ArspScHAoCfxYX/jx/7tGG0oC0Af4TRvaY9lfOct7pssSw==",
+  "dgSpecHash": "pYo3dlVxTRc60IOLXey0kXy00fjuGHdqqWX3v2H/xfCmtKoA34y9VsGhgbMPBdrSqg352FXqUTWjOI59GRmqhg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Server\\BlazorLogin.Server.csproj",
   "expectedPackageFiles": [
@@ -14,11 +14,6 @@
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly\\7.0.10\\microsoft.aspnetcore.components.webassembly.7.0.10.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.server\\7.0.10\\microsoft.aspnetcore.components.webassembly.server.7.0.10.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.metadata\\7.0.20\\microsoft.aspnetcore.metadata.7.0.20.nupkg.sha512",
-    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.20\\microsoft.entityframeworkcore.7.0.20.nupkg.sha512",
-    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.20\\microsoft.entityframeworkcore.abstractions.7.0.20.nupkg.sha512",
-    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.20\\microsoft.entityframeworkcore.analyzers.7.0.20.nupkg.sha512",
-    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
-    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.configuration\\7.0.0\\microsoft.extensions.configuration.7.0.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.configuration.binder\\7.0.4\\microsoft.extensions.configuration.binder.7.0.4.nupkg.sha512",

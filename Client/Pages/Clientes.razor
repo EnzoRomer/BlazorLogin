@@ -1,0 +1,318 @@
+﻿@page "/clientes"
+
+<h3>Gestión de Clientes</h3>
+
+<div class="container mt-4">
+    <!-- Pestañas para las operaciones -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" @onclick='() => MostrarTab("alta")'>Alta</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" @onclick='() => MostrarTab("modificacion")'>Modificacion</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" @onclick='() => MostrarTab("consulta")'>Consulta</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" @onclick='() => MostrarTab("eliminacion")'>Eliminacion</a>
+        </li>
+    </ul>
+
+
+    <!-- Contenido de las pestañas -->
+    <div class="tab-content p-3 border border-top-0 rounded-bottom">
+        <!-- Alta -->
+        <div class="@(tabActual == "alta" ? "d-block" : "d-none")">
+            <h4>Alta de Cliente</h4>
+            <form>
+                <div class="form-group">
+                    <label for="dni">DNI:</label>
+                    <input type="text" class="form-control" id="dni" />
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" class="form-control" id="apellido" />
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" />
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" class="form-control" id="telefono" />
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Guardar</button>
+            </form>
+        </div>
+
+        <!-- Modificación -->
+        <div class="@(tabActual == "modificacion" ? "d-block" : "d-none")">
+            <h4>Modificar Cliente</h4>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" @bind="dniBusqueda" placeholder="Ingrese DNI del cliente" />
+                        <button class="btn btn-primary" @onclick="BuscarCliente">Buscar</button>
+                    </div>
+                </div>
+            </div>
+
+            @if (clienteEncontrado)
+            {
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>DNI:</label>
+                                <input type="text" class="form-control" @bind="cliente.DNI" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nombre:</label>
+                                <input type="text" class="form-control" @bind="cliente.Nombre" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email:</label>
+                                <input type="email" class="form-control" @bind="cliente.Email" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Teléfono:</label>
+                                <input type="text" class="form-control" @bind="cliente.Telefono" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Dirección:</label>
+                                <input type="text" class="form-control" @bind="cliente.Direccion" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-warning mt-3" @onclick="GuardarCambios">Guardar Cambios</button>
+                </form>
+            }
+            else if (!string.IsNullOrEmpty(mensajeError))
+            {
+                <div class="alert alert-danger mt-3">@mensajeError</div>
+            }
+        </div>
+
+        <!-- Consulta -->
+        <div class="@(tabActual == "consulta" ? "d-block" : "d-none")">
+            <h4>Consulta de Cliente</h4>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text"
+                               class="form-control"
+                        @bind="dniBusqueda"
+                               placeholder="Ingrese DNI del cliente"
+                        @oninput="(e) => dniBusqueda = e.Value.ToString()" />
+                        <button class="btn btn-primary" @onclick="BuscarCliente">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            @if (clienteEncontrado)
+            {
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Datos del Cliente</h5>
+                        <dl class="row">
+                            <dt class="col-sm-3">DNI:</dt>
+                            <dd class="col-sm-9">@cliente.DNI</dd>
+
+                            <dt class="col-sm-3">Nombre:</dt>
+                            <dd class="col-sm-9">@cliente.Nombre</dd>
+
+                            <dt class="col-sm-3">Email:</dt>
+                            <dd class="col-sm-9">@cliente.Email</dd>
+
+                            <dt class="col-sm-3">Teléfono:</dt>
+                            <dd class="col-sm-9">@cliente.Telefono</dd>
+
+                            <dt class="col-sm-3">Dirección:</dt>
+                            <dd class="col-sm-9">@cliente.Direccion</dd>
+                        </dl>
+                    </div>
+                </div>
+            }
+            else if (!string.IsNullOrEmpty(mensajeError))
+            {
+                <div class="alert alert-danger mt-3">
+                    <i class="fas fa-exclamation-circle"></i> @mensajeError
+                </div>
+            }
+        </div>
+
+
+        <!-- Eliminación -->
+        <div class="@(tabActual == "eliminacion" ? "d-block" : "d-none")">
+            <h4>Eliminar Cliente</h4>
+
+            <!-- Mensaje de confirmación -->
+            @if (mostrarMensajeExito)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>¡Éxito!</strong> Cliente eliminado correctamente.
+                    <button type="button" class="btn-close" @onclick="() => mostrarMensajeExito = false"></button>
+                </div>
+            }
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" @bind="dniEliminar" placeholder="Ingrese DNI del cliente" />
+                        <button class="btn btn-danger" @onclick="EliminarCliente">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            @if (clienteAEliminar != null)
+            {
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Cliente a eliminar</h5>
+                        <p>¿Confirmas que deseas eliminar a @clienteAEliminar.Nombre (DNI: @clienteAEliminar.DNI)?</p>
+                        <button class="btn btn-outline-danger" @onclick="ConfirmarEliminacion">
+                            <i class="fas fa-check-circle"></i> Confirmar Eliminación
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private string tabActual = "alta";
+
+    private void MostrarTab(string tab)
+    {
+        tabActual = tab;
+        StateHasChanged();
+    }
+    // Variables para la búsqueda
+    private string dniBusqueda = "";
+    private bool clienteEncontrado = false;
+    private string mensajeError = "";
+    private string dniEliminar = "";
+    private Cliente clienteAEliminar;
+    private bool mostrarMensajeExito = false;
+
+    // Modelo del cliente
+    private Cliente cliente = new Cliente();
+
+    class Cliente
+    {
+        public string DNI { get; set; } = "";
+        public string Nombre { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Telefono { get; set; } = "";
+        public string Direccion { get; set; } = "";
+    }
+
+    private void BuscarCliente()
+    {
+        // Lógica simulada de búsqueda (reemplazar con conexión a API/BD)
+        if (string.IsNullOrWhiteSpace(dniBusqueda))
+        {
+            mensajeError = "Por favor ingrese un DNI";
+            clienteEncontrado = false;
+            return;
+        }
+
+        // Simulación: Si el DNI tiene 8 caracteres numéricos, devuelve un cliente de prueba
+        if (dniBusqueda.Length == 8 && dniBusqueda.All(char.IsDigit))
+        {
+            cliente = new Cliente
+                {
+                    DNI = dniBusqueda,
+                    Nombre = "Enzo Romero",
+                    Email = "enzo@gmail.com",
+                    Telefono = "3549123456",
+                    Direccion = "Calle 10"
+                };
+            clienteEncontrado = true;
+            mensajeError = "";
+        }
+        else
+        {
+            mensajeError = "Cliente no encontrado o DNI inválido";
+            clienteEncontrado = false;
+        }
+    }
+
+    private void GuardarCambios()
+    {
+        // Lógica para guardar los cambios (simulada)
+        Console.WriteLine($"Guardando cambios para DNI: {cliente.DNI}");
+
+        // Aquí iría la conexión real con tu backend
+        // await httpClient.PutAsJsonAsync("api/clientes", cliente);
+
+        // Mensaje de éxito (podrías usar Toast/Alert)
+        Console.WriteLine("Cambios guardados exitosamente");
+    }
+    private async Task EliminarCliente()
+    {
+        if (string.IsNullOrWhiteSpace(dniEliminar))
+        {
+            // Mostrar error si el campo está vacío
+            return;
+        }
+
+        // SIMULACIÓN - Reemplazar con llamada real a API
+        if (dniEliminar == "12345678") // Ejemplo con DNI hardcodeado
+        {
+            clienteAEliminar = new Cliente
+                {
+                    DNI = "12345678",
+                    Nombre = "María González"
+                };
+        }
+        else
+        {
+            // Opcional: Mostrar mensaje de "No encontrado"
+        }
+    }
+
+    private async Task ConfirmarEliminacion()
+    {
+        // SIMULACIÓN - Reemplazar con llamada real a API
+        // await httpClient.DeleteAsync($"/api/clientes/{dniEliminar}");
+
+        // Mostrar mensaje de éxito
+        mostrarMensajeExito = true;
+
+        // Resetear variables
+        clienteAEliminar = null;
+        dniEliminar = "";
+
+        // Ocultar mensaje después de 3 segundos (opcional)
+        await Task.Delay(3000);
+        mostrarMensajeExito = false;
+    }
+}
+
