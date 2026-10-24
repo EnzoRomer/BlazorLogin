@@ -1,42 +1,85 @@
 ﻿@page "/"
 @layout LoginLayout
-@inject HttpClient httClient
+@inject HttpClient httpClient
 @using BlazorLogin.Client.Extensiones
 @using BlazorLogin.Shared
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider autenticacionProvider
 @inject NavigationManager navManager
 
-<div class="row mt-5">
-    <div class="col-Ig-4 offset-Ig-4 border">
-        <div class="mb-3 text-center">
-            <h3>Inicio de Sesión</h3>
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-4 col-md-6 col-sm-8 border p-4 rounded-3 shadow-sm bg-white">
+        <div class="mb-4 text-center">
+            <h3 class="fw-bold">Inicio de Sesión</h3>
         </div>
+        @if (!string.IsNullOrEmpty(MensajeError))
+        {
+            <div class="alert alert-danger mb-3 py-2">
+                @MensajeError
+            </div>
+        }
         <div class="mb-3">
-            <label>Correo</label>
-            <input @bind="login.Correo" class="form-control" />
+            <label class="form-label">Correo</label>
+            <input type="email"
+            @bind="login.Correo"
+                   class="form-control"
+                   placeholder="ejemplo@correo.com" />
         </div>
-        <div class="mb-3">
-            <label>Contraseña</label>
-            <input @bind="login.Clave" class="form-control" />
+        <div class="mb-4">
+            <label class="form-label">Contraseña</label>
+            <input type="password"
+            @bind="login.Clave"
+                   class="form-control"
+                   placeholder="••••••••" />
         </div>
-        <div class="mb-3">
-            <button @onclick="IniciarSesion" class="btn btn-primary">Login</button>
+        <div class="d-grid">
+            <button @onclick="IniciarSesion"
+                    class="btn btn-primary py-2">
+                Ingresar
+            </button>
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            
+            <a href="/crear-usuario">Crear Usuario</a>
+            <a href="/recuperar-contrasena">Recuperar contraseña</a>
         </div>
     </div>
-
 </div>
 @code {
     private LoginDTO login = new LoginDTO();
+    private string MensajeError { get; set; } = string.Empty;
     private async Task IniciarSesion()
+
     {
-        var loginResponse = await httClient.PostAsJsonAsync<LoginDTO>("/api/Usuario/Login", login);
-        if (loginResponse.IsSuccessStatusCode)
+        try
         {
-            var sesionUsuario = await loginResponse.Content.ReadFromJsonAsync<SesionDTO>();
-            var autenticationExt = (AutenticationExtension)autenticacionProvider;
-            await autenticationExt.ActualizarEstadoAutenticacion(sesionUsuario);
-            navManager.NavigateTo("/Index");
+            var response = await httpClient.PostAsJsonAsync("/api/Usuario/Login", login);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var sesionUsuario = await response.Content.ReadFromJsonAsync<SesionDTO>();
+
+                if (sesionUsuario != null)
+                {
+                    var autenticationExt = (AutenticationExtension)autenticacionProvider;
+                    await autenticationExt.ActualizarEstadoAutenticacion(sesionUsuario);
+                    navManager.NavigateTo("/Index", forceLoad: true);
+                }
+            }
+            else
+            {
+                MensajeError = "Usuario y/o contraseña incorrectas";
+            }
+        }
+        catch (Exception ex)
+        {
+            MensajeError = "Error de conexión";
+            Console.WriteLine(ex.ToString()); 
         }
     }
+    // private void NavigateToCreateUser()
+    // {
+    //     NavigationManager.NavigateTo("/crear-usuario");
+    // }
+
 }

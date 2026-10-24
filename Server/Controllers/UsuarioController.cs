@@ -10,22 +10,30 @@ namespace BlazorLogin.Server.Controllers
     {
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromBody]LoginDTO login)
+        public async Task<IActionResult> Login([FromBody] LoginDTO login)
         {
-            SesionDTO sestionDTO = new SesionDTO();
-            if(login.Correo=="admin@gmail.com"&& login.Clave=="admin")
+            if (login.Correo == "admin@gmail.com" && login.Clave == "admin")
             {
-                sestionDTO.Nombre = "admin";
-                sestionDTO.Correo = login.Correo;
-                sestionDTO.Rol = "Administrador";
+                var respuesta = new SesionDTO()
+                {
+                    Nombre = "Administrador",
+                    Correo = login.Correo,
+                    Rol = "Administrador"
+                };
+                return Ok(respuesta); // Devuelve 200 OK con SesionDTO
             }
-            else
+            if (login.Correo == "usuario" && login.Clave == "usuario")
             {
-                sestionDTO.Nombre = "usuario";
-                sestionDTO.Correo = login.Correo;
-                sestionDTO.Rol = "Usuario";   
+                var respuesta = new SesionDTO()
+                {
+                    Nombre = "Usuario",
+                    Correo = login.Correo,
+                    Rol = "Usuario"
+                };
+                return Ok(respuesta); // Devuelve 200 OK con SesionDTO
             }
-            return StatusCode(StatusCodes.Status200OK,sestionDTO);
+
+            return Unauthorized(); // Devuelve 401 sin cuerpo
         }
     }
 }
