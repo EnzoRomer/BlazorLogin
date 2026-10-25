@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using BlazorLogin.Shared;
+using BlazorLogin.Server.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorLogin.Server.Controllers
 {
@@ -8,32 +9,63 @@ namespace BlazorLogin.Server.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
+        private readonly AppDbContext _context;
+
+        // Inyectamos la base de datos
+        public UsuarioController(AppDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO login)
         {
-            if (login.Correo == "admin@gmail.com" && login.Clave == "admin")
+            // --- DIAGNÓSTICO 1: Ver qué llega desde Blazor ---
+            Console.WriteLine($"--> [DIAGNÓSTICO] Llegó petición. Correo: '{login.Correo}', Clave: '{login.Clave}'");
+
+            try
             {
-                var respuesta = new SesionDTO()
+                // --- DIAGNÓSTICO 2: Ver si conecta a la BD y cuántos usuarios hay ---
+                var todosLosUsuarios = await _context.Usuarios.ToListAsync();
+                Console.WriteLine($"--> [DIAGNÓSTICO] Conexión a BD exitosa. Usuarios encontrados: {todosLosUsuarios.Count}");
+
+                foreach (var u in todosLosUsuarios)
                 {
-                    Nombre = "Administrador",
-                    Correo = login.Correo,
-                    Rol = "Administrador"
-                };
-                return Ok(respuesta); // Devuelve 200 OK con SesionDTO
+                    Console.WriteLine($"   -> [BD] Usuario: '{u.Correo}', Clave: '{u.Contrasena}'");
+                }
+
+                // --- LÓGICA REAL DEL LOGIN ---
+                // Usamos .Trim() y .ToLower() para evitar errores por espacios o mayúsculas
+                var usuarioDb = await _context.Usuarios
+                    .FirstOrDefaultAsync(u => u.Correo.Trim().ToLower() == login.Correo.Trim().ToLower()
+                                           && u.Contrasena.Trim() == login.Clave.Trim());
+
+                if (usuarioDb != null)
+                {
+                    Console.WriteLine("--> [DIAGNÓSTICO] ¡Usuario encontrado! Iniciando sesión.");
+
+                    var respuesta = new SesionDTO()
+                    {
+                        Nombre = usuarioDb.Nombre,
+                        Correo = usuarioDb.Correo,
+                        Rol = "Administrador"
+                    };
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    Console.WriteLine("--> [DIAGNÓSTICO] Usuario o clave incorrectos (No hubo coincidencia).");
+                }
             }
-            if (login.Correo == "usuario" && login.Clave == "usuario")
+            catch (Exception ex)
             {
-                var respuesta = new SesionDTO()
-                {
-                    Nombre = "Usuario",
-                    Correo = login.Correo,
-                    Rol = "Usuario"
-                };
-                return Ok(respuesta); // Devuelve 200 OK con SesionDTO
+                // --- DIAGNÓSTICO 3: Si hay error de base de datos, lo mostramos ---
+                Console.WriteLine($"--> [ERROR FATAL BD] {ex.Message}");
+                return StatusCode(500, "Error interno del servidor al conectar con la base de datos.");
             }
 
-            return Unauthorized(); // Devuelve 401 sin cuerpo
+            return Unauthorized();
         }
     }
 }

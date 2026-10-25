@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Client\\BlazorLogin.Client.csproj": {}
+    "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Client\\BlazorLogin.Client.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Client\\BlazorLogin.Client.csproj": {
+    "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Client\\BlazorLogin.Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Client\\BlazorLogin.Client.csproj",
+        "projectUniqueName": "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Client\\BlazorLogin.Client.csproj",
         "projectName": "BlazorLogin.Client",
-        "projectPath": "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Client\\BlazorLogin.Client.csproj",
-        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Client\\obj\\",
+        "projectPath": "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Client\\BlazorLogin.Client.csproj",
+        "packagesPath": "C:\\Users\\Enzito\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Client\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Enzito\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,10 +30,11 @@
         },
         "frameworks": {
           "net7.0": {
+            "framework": "net7.0",
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\BlazorLogin.Shared.csproj": {
-                "projectPath": "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\BlazorLogin.Shared.csproj"
+              "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\BlazorLogin.Shared.csproj": {
+                "projectPath": "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\BlazorLogin.Shared.csproj"
               }
             }
           }
@@ -38,10 +43,17 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net7.0": {
+          "framework": "net7.0",
           "targetAlias": "net7.0",
           "dependencies": {
             "Blazored.SessionStorage": {
@@ -60,6 +72,24 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.10, )"
+            },
+            "Microsoft.NET.ILLink.Analyzers": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.100-1.23211.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.100-1.23211.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.NET.Sdk.WebAssembly.Pack": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.13, )",
+              "autoReferenced": true
             }
           },
           "imports": [
@@ -76,7 +106,7 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
-              "version": "[7.0.10, 7.0.10]"
+              "version": "[7.0.20, 7.0.20]"
             }
           ],
           "frameworkReferences": {
@@ -84,7 +114,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.402\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {
@@ -93,17 +123,21 @@
         }
       }
     },
-    "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\BlazorLogin.Shared.csproj": {
+    "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\BlazorLogin.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\BlazorLogin.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\BlazorLogin.Shared.csproj",
         "projectName": "BlazorLogin.Shared",
-        "projectPath": "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\BlazorLogin.Shared.csproj",
-        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuario\\Desktop\\Estudios\\5to Semestre 2025\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\obj\\",
+        "projectPath": "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\BlazorLogin.Shared.csproj",
+        "packagesPath": "C:\\Users\\Enzito\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Enzito\\Desktop\\Estudios\\PP2\\PP2\\ProyectoV4\\BlazorLogin\\Shared\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Enzito\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -115,6 +149,7 @@
         },
         "frameworks": {
           "net7.0": {
+            "framework": "net7.0",
             "targetAlias": "net7.0",
             "projectReferences": {}
           }
@@ -123,10 +158,17 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net7.0": {
+          "framework": "net7.0",
           "targetAlias": "net7.0",
           "imports": [
             "net461",
@@ -144,7 +186,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

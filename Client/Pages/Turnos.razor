@@ -1,7 +1,34 @@
-﻿
+﻿@inject IJSRuntime JS
 @page "/turnos"
 
-<h3>Gestión de Turnos</h3>
+<h3>Listado de Turnos</h3>
+
+<!-- Tabla de turnos -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Comentario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var turno in turnos)
+        {
+            <tr>
+                <td>@turno.DNI</td>
+                <td>@turno.NombreCliente</td>
+                <td>@turno.Fecha.ToShortDateString()</td>
+                <td>@turno.Comentario</td>
+                <td>
+                    <button class="btn btn-sm btn-warning m-1" @onclick="() => EditarTurno(turno)">Editar</button>
+                    <button class="btn btn-sm btn-danger m-1" @onclick="() => EliminarTurno(turno.Id)">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <hr />
 
@@ -24,16 +51,12 @@
         <InputDate class="form-control" @bind-Value="nuevoTurno.Fecha" />
     </div>
 
-    <div class="form-group">
-        <label>Hora:</label>
-        <InputDate class="form-control" @bind-Value="nuevoTurno.Hora" />
-    </div>
 
     <div class="form-group">
         <label>Comentario:</label>
         <InputText class="form-control" @bind-Value="nuevoTurno.Comentario" />
     </div>
-    <button class="btn btn-primary mt-3" type="submit">@(editando ? "Guardar cambios" : "Agregar turno")</button>
+    <button class="btn btn-primary m-2" type="submit">@(editando ? "Guardar cambios" : "Agregar turno")</button>
     @if (editando)
     {
         <button class="btn btn-secondary" @onclick="CancelarEdicion">Cancelar</button>
@@ -42,33 +65,6 @@
 
 <hr />
 
-<!-- Tabla de turnos -->
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>DNI</th>
-            <th>Cliente</th>            
-            <th>Fecha</th>
-            <th>Comentario</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var turno in turnos)
-        {
-            <tr>
-                <td>@turno.DNI</td>
-                <td>@turno.NombreCliente</td>                
-                <td>@turno.Fecha.ToShortDateString()</td>
-                <td>@turno.Hora.ToShortTimeString</td>
-                <td>@turno.Comentario</td>
-                <td>
-                    <button class="btn btn-sm btn-warning ml=2" @onclick="() => EditarTurno(turno)">Editar</button>
-                    <button class="btn btn-sm btn-danger" @onclick="() => EliminarTurno(turno.Id)">Eliminar</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 
 @code {
     public class Turno
@@ -77,9 +73,21 @@
         public string DNI { get; set; }
         public string NombreCliente { get; set; }
         public DateTime Fecha { get; set; }
-        public TimeOnly Hora { get; set; }
+        public TimeSpan Hora { get; set; } // Nueva propiedad para la hora
         public string Comentario { get; set; }
+
+        // Propiedad combinada para facilitar el binding
+        public DateTime FechaHora
+        {
+            get => Fecha.Date.Add(Hora);
+            set
+            {
+                Fecha = value.Date;
+                Hora = value.TimeOfDay;
+            }
+        }
     }
+
     private List<Turno> turnos = new();
     private Turno nuevoTurno = new();
     private bool editando = false;
@@ -93,8 +101,7 @@
             {
                 existente.DNI = nuevoTurno.DNI;
                 existente.NombreCliente = nuevoTurno.NombreCliente;                
-                existente.Fecha = nuevoTurno.Fecha;
-                existente.Hora = nuevoTurno.Hora;
+                existente.Fecha = nuevoTurno.Fecha;                
                 existente.Comentario = nuevoTurno.Comentario;
             }
         }
@@ -107,7 +114,6 @@
                     DNI = nuevoTurno.DNI,
                     NombreCliente = nuevoTurno.NombreCliente,                    
                     Fecha = nuevoTurno.Fecha,
-                    Hora = nuevoTurno.Hora,
                     Comentario = nuevoTurno.Comentario
                 });
         }
@@ -124,19 +130,27 @@
                 DNI = turno.DNI,
                 NombreCliente = turno.NombreCliente,                
                 Fecha = turno.Fecha,
-                Hora = turno.Hora,
                 Comentario = turno.Comentario
             };
         editando = true;
     }
 
-    private void EliminarTurno(int id)
+    private async Task EliminarTurno(int id)
     {
-        var turno = turnos.FirstOrDefault(t => t.Id == id);
-        if (turno != null)
+        // Mostrar confirmación
+        bool confirmado = await JS.InvokeAsync<bool>("confirm", "¿Está seguro que desea eliminar este turno?");
+
+        if (!confirmado) return;
+        if (confirmado)
         {
-            turnos.Remove(turno);
-        }
+            var turno = turnos.FirstOrDefault(t => t.Id == id);      
+            if (turno != null)
+            {
+                turnos.Remove(turno);
+                // Mostrar mensaje de éxito
+                await JS.InvokeVoidAsync("alert", "Turno eliminado correctamente");
+            }
+        }        
     }
 
     private void CancelarEdicion()

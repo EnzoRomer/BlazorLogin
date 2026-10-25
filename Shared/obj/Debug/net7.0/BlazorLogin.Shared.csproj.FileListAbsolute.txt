@@ -9,3 +9,16 @@ C:\Users\Usuario\Desktop\Estudios\5to Semestre 2025\PP2\ProyectoV4\BlazorLogin\S
 C:\Users\Usuario\Desktop\Estudios\5to Semestre 2025\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\refint\BlazorLogin.Shared.dll
 C:\Users\Usuario\Desktop\Estudios\5to Semestre 2025\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\BlazorLogin.Shared.pdb
 C:\Users\Usuario\Desktop\Estudios\5to Semestre 2025\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\ref\BlazorLogin.Shared.dll
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\bin\Debug\net7.0\BlazorLogin.Shared.deps.json
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\bin\Debug\net7.0\BlazorLogin.Shared.dll
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\bin\Debug\net7.0\BlazorLogin.Shared.pdb
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\BlazorLogin.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\BlazorLogin.Shared.AssemblyInfoInputs.cache
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\BlazorLogin.Shared.AssemblyInfo.cs
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\BlazorLogin.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\BlazorLogin.Shared.sourcelink.json
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\BlazorLogin.Shared.dll
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\refint\BlazorLogin.Shared.dll
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\BlazorLogin.Shared.pdb
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\ref\BlazorLogin.Shared.dll
+C:\Users\Enzito\Desktop\Estudios\PP2\PP2\ProyectoV4\BlazorLogin\Shared\obj\Debug\net7.0\BlazorLo.B7E2E8F7.Up2Date
